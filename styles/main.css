@@ -1,0 +1,91 @@
+body, p, h1{
+    padding: 0;
+    margin: 0;
+}
+
+p{
+    line-height: 1rem;
+    text-align: center;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100vh;
+}
+
+.tableMain{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+}
+
+.table{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+    break-before: always;
+}
+
+.tableLine{
+    display: flex;
+    break-before: always;
+    gap: 0.2rem;
+}
+
+.tableCell{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 10px;
+    border: 0.1rem #ddd solid;
+}
+.tableCellInput{
+    width: 80%;
+    height: 80%;
+    border: none;
+    box-shadow: none !important;
+    text-align: center;
+    border: none !important;
+    outline-style: none;
+}
+
+.tableCellBolder{
+    border: 0.1rem #666 solid !important;
+}
+.tableCellBolder>input{
+    color: #666;
+}
+
+.tableDefinitions{
+    display: flex;
+    height: 10%;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+    width: 8rem;
+    height: 2rem;
+}
+.tableDefinitions>p:not(.tableDefinitions>p:nth-child(2)){
+    border: 1px solid black;
+    border-radius: 100%;
+    width: 1rem;
+    height: 1rem;
+}
+.tableDefinitions>p:not(.tableDefinitions>p:nth-child(2)):hover{
+    cursor: pointer;
+}
+.tableDefinitions>p:nth-child(2){
+    width: 4rem;
+}   
+
+.tableCellActive{
+    box-shadow: 0 0 0.2rem #0000ff;
+}
