@@ -29,14 +29,15 @@ body{
     align-items: center;
     flex-wrap: wrap;
     gap: 0.2rem;
-    break-before: always;
 }
 
 .tableLine{
     display: flex;
-    break-before: always;
     gap: 0.2rem;
+    width: 100%;
+    justify-content: center;
 }
+
 
 .tableCell{
     display: flex;
