@@ -128,6 +128,7 @@ class Table {
       let neutralColumn = []
       this.properties.closement = this.properties.comutative = true
       this.properties.neutralElement = false
+      this.neutralElementValue = null
       for(let i = 0;i < this.size;i++){
          for(let j=0;j < this.size;j++){
             if (this.properties.closement) {
@@ -154,8 +155,9 @@ class Table {
          }
       }
       for(let i = 0;i < this.size;i++)
-      if(neutralColumn[i] === this.size && neutralLine[i] === this.size){
+         if(neutralColumn[i] === this.size && neutralLine[i] === this.size){
             this.properties.neutralElement = true
+            this.neutralElementValue = this.index[i]
             break
          }
       this.type = 'none'
