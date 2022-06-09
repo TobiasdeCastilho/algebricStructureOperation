@@ -7,10 +7,10 @@ class Table {
          closement: undefined,
          comutative: undefined,
          neutralElement: undefined,
-         simetric: undefined
+         symmetrical: undefined
       },
-      this.type = '',
-      this.neutralElementValue = undefined
+         this.type = '',
+         this.neutralElementValue = undefined
    }
    cellActivate() {
       const activeCells = document.getElementsByClassName('tableCellActive')
@@ -20,8 +20,8 @@ class Table {
       activeCell.classList.add('tableCellActive')
       if (activeCell.id.includes('column')) {
          const id = String(activeCell.id).replace('column', '')
-         document.getElementById('column'+id).classList.add('tableCellActive')
-         document.getElementById('line'+id).classList.add('tableCellActive')
+         document.getElementById('column' + id).classList.add('tableCellActive')
+         document.getElementById('line' + id).classList.add('tableCellActive')
       } else
          document.getElementById('cell' + (String(activeCell.id).replace('cell', ''))).classList.add('tableCellActive')
    }
@@ -110,10 +110,10 @@ class Table {
       for (let i = 0; i < this.size; i++) {
          this.values.push(i)
          this.values[i] = []
-         const line = i*this.size
-         for (let j = 0; j < this.size; j++){
+         const line = i * this.size
+         for (let j = 0; j < this.size; j++) {
             this.values[i].push(j)
-            this.values[i][j] = cells[line+j].value
+            this.values[i][j] = cells[line + j].value
          }
       }
    }
@@ -137,10 +137,10 @@ class Table {
       const table = this
       this.values = []
       this.values.fill([])
-      for(let i=0;i<this.size;i++){
+      for (let i = 0; i < this.size; i++) {
          this.values.push(i)
          this.values[i] = []
-         for(let j=0;j<this.size;j++){
+         for (let j = 0; j < this.size; j++) {
             aPosition.map((value,) => operation[value] = table.index[i])
             bPosition.map((value,) => operation[value] = table.index[j])
             this.values[i][j] = String(eval(operation.join('')))
@@ -151,73 +151,83 @@ class Table {
    verify() {
       let neutralLine = []
       let neutralColumn = []
-      this.properties.closement = this.properties.comutative = true
+      this.properties.closement = this.properties.comutative = this.properties.symmetrical = true
       this.properties.neutralElement = false
       this.neutralElementValue = null
-      for(let i = 0;i < this.size;i++){
-         for(let j=0;j < this.size;j++){
+      for (let i = 0; i < this.size; i++) {
+         for (let j = 0; j < this.size; j++) {
             if (this.properties.closement) {
                if (!this.index.includes(this.values[i][j]))
                   this.properties.closement = this.properties.comutative = false
-               else if (this.properties.comutative && j < this.size-1){
-                  const index = this.index.indexOf(this.values[i][j+1])
-                  if(index === -1)
+               else if (this.properties.comutative && j < this.size - 1) {
+                  const index = this.index.indexOf(this.values[i][j + 1])
+                  if (index === -1)
                      this.properties.comutative = false
                   else
-                     this.properties.comutative = (this.values[this.index.indexOf(this.values[i][j])][j+1] === this.values[index][j])
+                     this.properties.comutative = (this.values[this.index.indexOf(this.values[i][j])][j + 1] === this.values[index][j])
                }
             }
-            if(this.values[i][j] === this.index[i])
-            if(!neutralColumn[j])
+            if (this.values[i][j] === this.index[i])
+               if (!neutralColumn[j])
                   neutralColumn[j] = 1
-                  else
+               else
                   neutralColumn[j]++
-            if(this.values[i][j] === this.index[j])
-               if(!neutralLine[i])
+            if (this.values[i][j] === this.index[j])
+               if (!neutralLine[i])
                   neutralLine[i] = 1
                else
                   neutralLine[i]++
          }
-      }
-      for(let i = 0;i < this.size;i++)
-         if(neutralColumn[i] === this.size && neutralLine[i] === this.size){
+      }      
+      for (let i = 0; i < this.size; i++)
+         if (neutralColumn[i] === this.size && neutralLine[i] === this.size) {
             this.properties.neutralElement = true
             this.neutralElementValue = this.index[i]
             break
          }
+      if(!this.properties.comutative)
+         this.properties.symmetrical = false
+      else
+         for(let i = 0;i < this.size; i++){
+            this.symmetrical = this.values[i].includes(this.neutralElementValue)
+            for(let j = 0;j < this.size; j++)
+               this.symmetrical = this.values[i][j] === this.neutralElementValue
+            if(!this.symmetrical)
+               break
+         }
       this.type = 'none'
-      if(this.properties.closement){
+      if (this.properties.closement) {
          this.type = 'groupoid'
-         if(this.properties.comutative){
+         if (this.properties.comutative) {
             this.type = 'semi-group'
-            if(this.properties.neutralElement){
+            if (this.properties.neutralElement) {
                this.type = 'monoid'
-               if(this.properties.idempotent)
+               if (this.properties.symmetrical)
                   this.type = 'group'
             }
-         }        
+         }
       }
       return this.type
    }
-   write(){
-      for(let i=0;i<this.size;i++)
-         for(let j=0;j<this.size;j++)
-            document.getElementById(`cell${i+1}|${j+1}`).value = this.values[i][j]
+   write() {
+      for (let i = 0; i < this.size; i++)
+         for (let j = 0; j < this.size; j++)
+            document.getElementById(`cell${i + 1}|${j + 1}`).value = this.values[i][j]
    }
-   isomorfirms(index = ['a','b','c','d'], values = [['a','b','c','d'],['b','a','d','c'],['c','d','a','b'],['d','c','b','a']]){
-      if(index.length !== values.length){
+   isomorfirms(index = ['a', 'b', 'c', 'd'], values = [['a', 'b', 'c', 'd'], ['b', 'a', 'd', 'c'], ['c', 'd', 'a', 'b'], ['d', 'c', 'b', 'a']]) {
+      if (index.length !== values.length) {
          console.error('The index and values must have the same length')
          return false
       }
-      if(this.index.length !== index.length)
+      if (this.index.length !== index.length)
          return false
-      for(let i=0;i<this.size;i++)
-         for(let j=0;j<this.size;j++)
-            if(this.index.indexOf(this.values[i][j]) !== index.indexOf(values[i][j])){
+      for (let i = 0; i < this.size; i++)
+         for (let j = 0; j < this.size; j++)
+            if (this.index.indexOf(this.values[i][j]) !== index.indexOf(values[i][j])) {
                console.log('X')
                return false
             }
-               
+
       return true
    }
 }
