@@ -2,12 +2,10 @@ body, p, h1{
     padding: 0;
     margin: 0;
 }
-
 p{
     line-height: 1rem;
     text-align: center;
 }
-
 body{
     display: flex;
     justify-content: center;
@@ -21,6 +19,7 @@ body{
     justify-content: center;
     align-items: center;
     height: 90%;
+    width: 100%;
 }
 
 .table{
@@ -47,15 +46,12 @@ body{
     height: 3rem;
     border-radius: 10px;
     border: 0.1rem #ddd solid;
-}
-.tableCellInput{
-    width: 80%;
-    height: 80%;
-    border: none;
-    box-shadow: none !important;
+    box-shadow: none;
     text-align: center;
-    border: none !important;
     outline-style: none;
+}
+.tableCellActive{
+    box-shadow: 0 0 0.2rem #0000ff;
 }
 
 .tableCellBolder{
@@ -86,7 +82,3 @@ body{
 .tableDefinitions>p:nth-child(2){
     width: 4rem;
 }   
-
-.tableCellActive{
-    box-shadow: 0 0 0.2rem #0000ff;
-}
