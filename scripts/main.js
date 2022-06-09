@@ -123,6 +123,31 @@ class Table {
       for (let i = 0; i < this.size; i++)
          this.index.push(columns[i].value)
    }
+   tableOperate(operation) {
+      this.tableLoadIndex()
+      operation = operation.split('')
+      const aPosition = []
+      const bPosition = []
+      operation.map((value, index) => {
+         if (value == 'a')
+            aPosition.push(index)
+         else if (value == 'b')
+            bPosition.push(index)
+      })
+      const table = this
+      this.values = []
+      this.values.fill([])
+      for(let i=0;i<this.size;i++){
+         this.values.push(i)
+         this.values[i] = []
+         for(let j=0;j<this.size;j++){
+            aPosition.map((value,) => operation[value] = table.index[i])
+            bPosition.map((value,) => operation[value] = table.index[j])
+            this.values[i][j] = String(eval(operation.join('')))
+         }
+      }
+      this.tableWrite()
+   }
    tableVerify() {
       let neutralLine = []
       let neutralColumn = []
@@ -173,31 +198,6 @@ class Table {
          }        
       }
       return this.type
-   }
-   tableOperate(operation) {
-      this.tableLoadIndex()
-      operation = operation.split('')
-      const aPosition = []
-      const bPosition = []
-      operation.map((value, index) => {
-         if (value == 'a')
-            aPosition.push(index)
-         else if (value == 'b')
-            bPosition.push(index)
-      })
-      const table = this
-      this.values = []
-      this.values.fill([])
-      for(let i=0;i<this.size;i++){
-         this.values.push(i)
-         this.values[i] = []
-         for(let j=0;j<this.size;j++){
-            aPosition.map((value,) => operation[value] = table.index[i])
-            bPosition.map((value,) => operation[value] = table.index[j])
-            this.values[i][j] = String(eval(operation.join('')))
-         }
-      }
-      this.tableWrite()
    }
    tableWrite(){
       for(let i=0;i<this.size;i++)
