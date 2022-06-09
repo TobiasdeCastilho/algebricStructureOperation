@@ -29,7 +29,7 @@ class Table {
       const activeCell = document.activeElement
       document.getElementById('line' + String(activeCell.id).replace('column', '')).value = activeCell.value
    }
-   tableCreate() {
+   create() {
       const mainDiv = document.createElement('div')
       const tableDefinitions = document.createElement('div')
       tableDefinitions.classList.add('tableDefinitions')
@@ -40,14 +40,14 @@ class Table {
             tableDefinitionsDiv.innerHTML = `-`
             tableDefinitionsDiv.onclick = () => {
                this.size -= 1
-               this.tableCreate()
+               this.create()
             }
          } else if (i == 2) {
             tableDefinitionsDiv.id = 'tableAdd'
             tableDefinitionsDiv.innerHTML = `+`
             tableDefinitionsDiv.onclick = () => {
                this.size += 1
-               this.tableCreate()
+               this.create()
             }
          } else {
             tableDefinitionsDiv.id = 'tableSize'
@@ -87,8 +87,8 @@ class Table {
                cellInput.onfocus = () => this.cellActivate()
                if (i == j && j == length - 1)
                   cellInput.onblur = () => {
-                     this.tableLoad()
-                     this.tableVerify()
+                     this.load()
+                     this.verify()
                   }
             }
             lineDiv.appendChild(cellInput)
@@ -103,8 +103,8 @@ class Table {
       document.body.appendChild(tableDefinitions)
       document.getElementById('column1').focus()
    }
-   tableLoad() {
-      this.tableLoadIndex()
+   load() {
+      this.loadIndex()
       const cells = document.getElementsByClassName('tableCellInput')
       this.values = []
       for (let i = 0; i < this.size; i++) {
@@ -117,14 +117,14 @@ class Table {
          }
       }
    }
-   tableLoadIndex() {
+   loadIndex() {
       const columns = document.getElementsByClassName('tableColumnInput')
       this.index = []
       for (let i = 0; i < this.size; i++)
          this.index.push(columns[i].value)
    }
-   tableOperate(operation) {
-      this.tableLoadIndex()
+   operate(operation) {
+      this.loadIndex()
       operation = operation.split('')
       const aPosition = []
       const bPosition = []
@@ -146,9 +146,9 @@ class Table {
             this.values[i][j] = String(eval(operation.join('')))
          }
       }
-      this.tableWrite()
+      this.write()
    }
-   tableVerify() {
+   verify() {
       let neutralLine = []
       let neutralColumn = []
       this.properties.closement = this.properties.comutative = true
@@ -199,9 +199,25 @@ class Table {
       }
       return this.type
    }
-   tableWrite(){
+   write(){
       for(let i=0;i<this.size;i++)
          for(let j=0;j<this.size;j++)
             document.getElementById(`cell${i+1}|${j+1}`).value = this.values[i][j]
+   }
+   isomorfirms(index = ['a','b','c','d'], values = [['a','b','c','d'],['b','a','d','c'],['c','d','a','b'],['d','c','b','a']]){
+      if(index.length !== values.length){
+         console.error('The index and values must have the same length')
+         return false
+      }
+      if(this.index.length !== index.length)
+         return false
+      for(let i=0;i<this.size;i++)
+         for(let j=0;j<this.size;j++)
+            if(this.index.indexOf(this.values[i][j]) !== index.indexOf(values[i][j])){
+               console.log('X')
+               return false
+            }
+               
+      return true
    }
 }
