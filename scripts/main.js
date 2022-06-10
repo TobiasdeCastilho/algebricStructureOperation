@@ -7,11 +7,11 @@ class Table {
          closement: undefined,
          comutative: undefined,
          neutralElement: undefined,
-         symmetrical: undefined
+         symmetrical: undefined,
+         neutralElementValue: undefined,
+         klein: false
       },
-      this.type = '',
-      this.neutralElementValue = undefined
-      this.klein = false
+      this.type = ''
    }
    cellActivate() {
       const activeCells = document.getElementsByClassName('tableCellActive')
@@ -25,6 +25,22 @@ class Table {
          document.getElementById('line' + id).classList.add('tableCellActive')
       } else
          document.getElementById('cell' + (String(activeCell.id).replace('cell', ''))).classList.add('tableCellActive')
+   }
+   isomorfirms(index = ['a', 'b', 'c', 'd'], values = [['a', 'b', 'c', 'd'], ['b', 'a', 'd', 'c'], ['c', 'd', 'a', 'b'], ['d', 'c', 'b', 'a']]) {
+      if (index.length !== values.length) {
+         console.error('The index and values must have the same length')
+         return false
+      }
+      if (this.index.length !== index.length)
+         return false
+      for (let i = 0; i < this.size; i++)
+         for (let j = 0; j < this.size; j++)
+            if (this.index.indexOf(this.values[i][j]) !== index.indexOf(values[i][j])) {
+               console.log('X')
+               return false
+            }
+
+      return true
    }
    lineWrite() {
       const activeCell = document.activeElement
@@ -150,9 +166,9 @@ class Table {
       this.write()
    }
    verify() {
+      this.properties.closement = this.properties.comutative = this.properties.symmetrical = this.properties.klein = true
       let neutralLine = []
       let neutralColumn = []
-      this.properties.closement = this.properties.comutative = this.properties.symmetrical = this.klein = true
       this.properties.neutralElement = false
       this.neutralElementValue = null
       for (let i = 0; i < this.size; i++) {
@@ -191,10 +207,10 @@ class Table {
       else
          for(let i = 0;i < this.size; i++){
             this.symmetrical = this.values[i].includes(this.neutralElementValue)
+            if(this.properties.klein)   
             for(let j = 0;j < this.size; j++){
                if(this.symmetrical && (this.symmetrical = (this.values[i][j] === this.neutralElementValue)))
-                  if(this.klein)   
-                     this.klein = this.values[i][j] === this.index[i] && this.values === this.index[j]
+                     this.properties.klein = this.index[i] === this.index[j]
                else
                   break;
             }
@@ -217,21 +233,5 @@ class Table {
       for (let i = 0; i < this.size; i++)
          for (let j = 0; j < this.size; j++)
             document.getElementById(`cell${i + 1}|${j + 1}`).value = this.values[i][j]
-   }
-   isomorfirms(index = ['a', 'b', 'c', 'd'], values = [['a', 'b', 'c', 'd'], ['b', 'a', 'd', 'c'], ['c', 'd', 'a', 'b'], ['d', 'c', 'b', 'a']]) {
-      if (index.length !== values.length) {
-         console.error('The index and values must have the same length')
-         return false
-      }
-      if (this.index.length !== index.length)
-         return false
-      for (let i = 0; i < this.size; i++)
-         for (let j = 0; j < this.size; j++)
-            if (this.index.indexOf(this.values[i][j]) !== index.indexOf(values[i][j])) {
-               console.log('X')
-               return false
-            }
-
-      return true
    }
 }
