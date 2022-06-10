@@ -9,8 +9,9 @@ class Table {
          neutralElement: undefined,
          symmetrical: undefined
       },
-         this.type = '',
-         this.neutralElementValue = undefined
+      this.type = '',
+      this.neutralElementValue = undefined
+      this.klein = false
    }
    cellActivate() {
       const activeCells = document.getElementsByClassName('tableCellActive')
@@ -151,7 +152,7 @@ class Table {
    verify() {
       let neutralLine = []
       let neutralColumn = []
-      this.properties.closement = this.properties.comutative = this.properties.symmetrical = true
+      this.properties.closement = this.properties.comutative = this.properties.symmetrical = this.klein = true
       this.properties.neutralElement = false
       this.neutralElementValue = null
       for (let i = 0; i < this.size; i++) {
@@ -190,10 +191,13 @@ class Table {
       else
          for(let i = 0;i < this.size; i++){
             this.symmetrical = this.values[i].includes(this.neutralElementValue)
-            for(let j = 0;j < this.size; j++)
-               this.symmetrical = this.values[i][j] === this.neutralElementValue
-            if(!this.symmetrical)
-               break
+            for(let j = 0;j < this.size; j++){
+               if(this.symmetrical && (this.symmetrical = (this.values[i][j] === this.neutralElementValue)))
+                  if(this.klein)   
+                     this.klein = this.values[i][j] === this.index[i] && this.values === this.index[j]
+               else
+                  break;
+            }
          }
       this.type = 'none'
       if (this.properties.closement) {
