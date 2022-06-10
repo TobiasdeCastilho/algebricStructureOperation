@@ -166,23 +166,18 @@ class Table {
       this.write()
    }
    verify() {
-      this.properties.closement = this.properties.comutative = this.properties.symmetrical = this.properties.klein = true
       let neutralLine = []
       let neutralColumn = []
+      this.properties.closement = this.properties.comutative = this.properties.symmetrical = true
       this.properties.neutralElement = false
-      this.neutralElementValue = null
+      this.properties.neutralElementValue = null
       for (let i = 0; i < this.size; i++) {
          for (let j = 0; j < this.size; j++) {
             if (this.properties.closement) {
                if (!this.index.includes(this.values[i][j]))
                   this.properties.closement = this.properties.comutative = false
-               else if (this.properties.comutative && j < this.size - 1) {
-                  const index = this.index.indexOf(this.values[i][j + 1])
-                  if (index === -1)
-                     this.properties.comutative = false
-                  else
-                     this.properties.comutative = (this.values[this.index.indexOf(this.values[i][j])][j + 1] === this.values[index][j])
-               }
+               else if (this.properties.comutative && j < this.size)
+                  this.properties.comutative = this.values[i][j] === this.values[j][i]
             }
             if (this.values[i][j] === this.index[i])
                if (!neutralColumn[j])
@@ -199,21 +194,19 @@ class Table {
       for (let i = 0; i < this.size; i++)
          if (neutralColumn[i] === this.size && neutralLine[i] === this.size) {
             this.properties.neutralElement = true
-            this.neutralElementValue = this.index[i]
+            this.properties.neutralElementValue = this.index[i]
             break
          }
       if(!this.properties.comutative)
          this.properties.symmetrical = false
       else
          for(let i = 0;i < this.size; i++){
-            this.symmetrical = this.values[i].includes(this.neutralElementValue)
-            if(this.properties.klein)   
-            for(let j = 0;j < this.size; j++){
-               if(this.symmetrical && (this.symmetrical = (this.values[i][j] === this.neutralElementValue)))
-                     this.properties.klein = this.index[i] === this.index[j]
-               else
-                  break;
-            }
+            if(this.properties.symmetrical = this.values[i].includes(this.properties.neutralElementValue))
+               for(let j = 0;j < this.size;j++)
+                  if ((this.properties.symmetrical = (this.values[i][j] === this.properties.neutralElementValue)))
+                     break
+            if(!this.properties.symmetrical)  
+               break
          }
       this.type = 'none'
       if (this.properties.closement) {
