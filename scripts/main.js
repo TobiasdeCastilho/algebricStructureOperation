@@ -11,7 +11,7 @@ class Table {
          neutralElementValue: undefined,
          klein: false
       },
-      this.type = ''
+         this.type = ''
    }
    cellActivate() {
       const activeCells = document.getElementsByClassName('tableCellActive')
@@ -168,7 +168,7 @@ class Table {
    verify() {
       let neutralLine = []
       let neutralColumn = []
-      this.properties.closement = this.properties.comutative = this.properties.symmetrical = true
+      this.properties.closement = this.properties.comutative = this.properties.symmetrical = this.properties.klein = true
       this.properties.neutralElement = false
       this.properties.neutralElementValue = null
       for (let i = 0; i < this.size; i++) {
@@ -190,22 +190,44 @@ class Table {
                else
                   neutralLine[i]++
          }
-      }      
+      }
       for (let i = 0; i < this.size; i++)
          if (neutralColumn[i] === this.size && neutralLine[i] === this.size) {
             this.properties.neutralElement = true
             this.properties.neutralElementValue = this.index[i]
             break
          }
-      if(!this.properties.comutative)
+      if (!this.properties.comutative)
          this.properties.symmetrical = false
       else
-         for(let i = 0;i < this.size; i++){
-            if(this.properties.symmetrical = this.values[i].includes(this.properties.neutralElementValue))
-               for(let j = 0;j < this.size;j++)
+         for (let i = 0; i < this.size; i++) {
+            if (this.properties.symmetrical = this.values[i].includes(this.properties.neutralElementValue))
+               for (let j = 0; j < this.size; j++)
                   if ((this.properties.symmetrical = (this.values[i][j] === this.properties.neutralElementValue)))
                      break
-            if(!this.properties.symmetrical)  
+            if (!this.properties.symmetrical)
+               break
+         }
+      if (!this.properties.symmetrical)
+         this.properties.klein = false
+      else 
+         for (let i = 0; i < this.size; i++) {
+            this.values[i].map((value,index,array) => {
+               if(this.properties.klein){
+                  array[index] = undefined
+                  this.properties.klein = !array.includes(value)
+               }
+            })
+            let columnValues = []
+            for (let j = 0; j < this.size; j++) 
+               columnValues.push(this.values[j][i])
+            columnValues.map((value,index,array) => {
+               if(this.properties.klein){
+                  array[index] = undefined
+                  this.properties.klein = !array.includes(value)
+               }
+            })
+            if(!this.properties.klein)
                break
          }
       this.type = 'none'
