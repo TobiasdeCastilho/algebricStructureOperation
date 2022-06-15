@@ -11,7 +11,7 @@ class Table {
          neutralElementValue: undefined,
          klein: false
       },
-         this.type = ''
+      this.type = ''
    }
    cellActivate() {
       const activeCells = document.getElementsByClassName('tableCellActive')
@@ -203,42 +203,50 @@ class Table {
          for (let i = 0; i < this.size; i++) {
             if (this.properties.symmetrical = this.values[i].includes(this.properties.neutralElementValue))
                for (let j = 0; j < this.size; j++)
-                  if ((this.properties.symmetrical = (this.values[i][j] === this.properties.neutralElementValue)))
+                  if ((this.properties.symmetrical = (this.values[i][j] === this.properties.neutralElementValue))){
+                     if(this.index[i] !== this.index[j])
+                        this.properties.klein = false
                      break
-            if (!this.properties.symmetrical)
+                  }
+            if (!this.properties.symmetrical){
+               this.properties.klein = false
                break
+            }
          }
-      if (!this.properties.symmetrical)
-         this.properties.klein = false
-      else 
-         for (let i = 0; i < this.size; i++) {
-            this.values[i].map((value,index,array) => {
-               if(this.properties.klein){
-                  array[index] = undefined
-                  this.properties.klein = !array.includes(value)
+      if (this.properties.symmetrical && this.properties.klein){
+         for (let i = 0; i < this.size; i++){
+            let indexI, indexJ
+            indexI = indexJ = this.index
+            console.log(this.index)
+            console.log('-----')
+            for (let j = 0; j < this.size; j++){
+               const index = [indexI.indexOf(this.values[i][j]), indexJ.indexOf(this.values[j][i])]
+               if(index[0] === -1 || index[1] === -1){
+                  this.properties.klein = false
+                  break
                }
-            })
-            let columnValues = []
-            for (let j = 0; j < this.size; j++) 
-               columnValues.push(this.values[j][i])
-            columnValues.map((value,index,array) => {
-               if(this.properties.klein){
-                  array[index] = undefined
-                  this.properties.klein = !array.includes(value)
-               }
-            })
+               console.log(index, this.values[i][j], indexI)
+               indexI[index[0]] = undefined
+               console.log(index, this.values[j][i], indexJ)
+               indexJ[index[1]] = undefined
+               console.log("---")
+            }
             if(!this.properties.klein)
                break
          }
+      }
       this.type = 'none'
       if (this.properties.closement) {
          this.type = 'groupoid'
          if (this.properties.comutative) {
             this.type = 'semi-group'
             if (this.properties.neutralElement) {
-               this.type = 'monoid'
-               if (this.properties.symmetrical)
-                  this.type = 'group'
+               this.type = 'comutative monoid'
+               if (this.properties.symmetrical){
+                  this.type = 'comutative group'
+                  if(this.properties.klein)
+                     this.type = 'klein\'s group'
+               }
             }
          }
       }
