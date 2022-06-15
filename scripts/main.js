@@ -223,7 +223,6 @@ class Table {
             })
             for (let j = 0; j < this.size; j++){
                const index = [indexI.indexOf(this.values[i][j]), indexJ.indexOf(this.values[j][i])]
-               console.log(index, indexI, indexJ)
                if(index[0] === -1 || index[1] === -1){
                   this.properties.klein = false
                   break
