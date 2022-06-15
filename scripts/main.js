@@ -215,21 +215,21 @@ class Table {
          }
       if (this.properties.symmetrical && this.properties.klein){
          for (let i = 0; i < this.size; i++){
-            let indexI, indexJ
-            indexI = indexJ = this.index
-            console.log(this.index)
-            console.log('-----')
+            let indexI = []
+            let indexJ = []
+            this.index.forEach((value) => {
+               indexI.push(value)
+               indexJ.push(value)
+            })
             for (let j = 0; j < this.size; j++){
                const index = [indexI.indexOf(this.values[i][j]), indexJ.indexOf(this.values[j][i])]
+               console.log(index, indexI, indexJ)
                if(index[0] === -1 || index[1] === -1){
                   this.properties.klein = false
                   break
                }
-               console.log(index, this.values[i][j], indexI)
                indexI[index[0]] = undefined
-               console.log(index, this.values[j][i], indexJ)
                indexJ[index[1]] = undefined
-               console.log("---")
             }
             if(!this.properties.klein)
                break
