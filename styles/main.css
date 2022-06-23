@@ -14,26 +14,17 @@ body{
     height: 100vh;
 }
 
-.tableMain{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 90%;
-    width: 100%;
-}
-
 .table{
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    flex-flow: column;
     gap: 0.2rem;
 }
 
 .tableLine{
     display: flex;
     gap: 0.2rem;
-    width: 100%;
     justify-content: center;
 }
 
